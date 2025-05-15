@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+  <link rel="stylesheet" href="css/style.css">
+  <title>Draw Something!</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Drawing Pad</h1>
+    <div class="controls">
+      <label>Color:</label>
+      <input type="color" id="colorPicker">
+      <label>Stroke Width:</label>
+      <input type="range" id="strokeWidth" min="1" max="20" value="2">
+    </div>
+    <canvas id="canvas" width="800" height="600" style="background:white; border:2px solid #000;"></canvas>
+  </div>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const colorPicker = document.getElementById('colorPicker');
+    const strokeWidth = document.getElementById('strokeWidth');
+
+    let drawing = false;
+    ctx.strokeStyle = colorPicker.value;
+    ctx.lineWidth = strokeWidth.value;
+
+    canvas.addEventListener('mousedown', () => {
+      drawing = true;
+      ctx.beginPath();
+    });
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+    });
+    canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    });
+
+    colorPicker.addEventListener('change', () => {
+      ctx.strokeStyle = colorPicker.value;
+    });
+
+    strokeWidth.addEventListener('input', () => {
+      ctx.lineWidth = strokeWidth.value;
+    });
+  </script>
+</body>
+</html>

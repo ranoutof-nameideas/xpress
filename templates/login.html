@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Xpress-Urself</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Login</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+    <a href="backend/logout.php" class="btn">Logout</a>
+    <a href="backend/delete_account.php" class="btn" onclick="return confirm('Delete your account permanently?')">Delete Account</a>
+</div>
+</body>
+</html>
