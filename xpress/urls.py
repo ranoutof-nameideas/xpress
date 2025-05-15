@@ -16,4 +16,6 @@ urlpatterns = [
     path('library/', views.library, name='library'),
     path('draw/', views.draw, name='draw'),
     path('podcasts/', views.podcasts, name='podcasts'),
+    path('delete-comment/<int:comment_id>/', views.delete_comment, name='delete_comment'),
+    path('profile/<str:username>/', views.profile, name='profile'),
 ]

@@ -105,3 +105,18 @@ button {
   border-radius: 4px;
   font-size: 0.85em;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.pagination a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #0077ff;
+}
+.error {
+  color: red;
+  font-weight: bold;
+}
