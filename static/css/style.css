@@ -58,3 +58,50 @@ button {
 .controls input[type="range"] {
     margin: 0 0.5rem;
 }
+
+.forum-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.post-container {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+.post-meta {
+  font-size: 0.9em;
+  color: #777;
+  display: flex;
+  justify-content: space-between;
+}
+
+.post-actions a {
+  margin-right: 8px;
+}
+
+.comments {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.btn {
+  padding: 8px 16px;
+  background: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+.btn-small {
+  padding: 4px 10px;
+  background: #aaa;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
