@@ -1,6 +1,11 @@
 {% load static %}
+
 {% if user.is_authenticated %}
-  <p>Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
+  <p>Welcome, {{ user.username }} | <form action="{% url 'logout' %}" method="post" style="display:inline;">
+  {% csrf_token %}
+    <button type="submit" style="background:none; border:none; color:inherit; cursor:pointer;">Logout</button>
+  </form>
+
 {% else %}
   <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
 {% endif %}
@@ -28,10 +33,6 @@
             <p>We made a podcast called "Further away from the screen" Right now it has ____ episodes.</p>
             <br>
             <a href="draw" class="btn">Drawing Pad</a>
-            <p>This place should be great if you want to make a litle drawing for the forum, after finishing, you can take a screenshot of it and upload it to the platform</p>
-            <br>
-            <a href="login" class="btn">Login</a>
-            <a href="register" class="btn">Register</a>
         </div>
     </div>
 </body>

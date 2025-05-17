@@ -1,5 +1,21 @@
 {% load static %}
 
+<div class="navbar">
+  {% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }} | <form action="{% url 'logout' %}" method="post" style="display:inline;">
+  {% csrf_token %}
+    <button type="submit" style="background:none; border:none; color:inherit; cursor:pointer;">Logout</button>
+  </form>
+
+  {% else %}
+    <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
+  {% endif %}
+</div>
+
+<form action="{% url 'index' %}" method="get">
+  <button type="submit" class="btn">Back to Home</button>
+</form>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

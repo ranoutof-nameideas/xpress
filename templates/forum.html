@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,29 +10,53 @@
 
 <div class="navbar">
   {% if user.is_authenticated %}
-    <p>Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
+    <p>Welcome, {{ user.username }} | 
+    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" style="background:none; border:none; color:inherit; cursor:pointer;">Logout</button>
+    </form>
   {% else %}
     <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
   {% endif %}
 </div>
 
+<form action="{% url 'index' %}" method="get">
+  <button type="submit" class="btn">Back to Home</button>
+</form>
+
 <div class="forum-wrapper">
   <h2>Start a new discussion</h2>
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ post_form.as_p }}
+    <div>
+      {{ post_form.content.label_tag }}<br>
+      {{ post_form.content }}
+      {% if post_form.content.errors %}
+        <div class="error">{{ post_form.content.errors }}</div>
+      {% endif %}
+    </div>
+    <div>
+      {{ post_form.image.label_tag }}<br>
+      {{ post_form.image }}
+      {% if post_form.image.errors %}
+        <div class="error">{{ post_form.image.errors }}</div>
+      {% endif %}
+    </div>
     <button type="submit" class="btn">Post</button>
   </form>
-
   <hr>
 
-  {% for post in posts %}
+  {% for post in page_obj %}
     <div class="post-container">
       <div class="post-meta">
-        <span><strong>{{ post.author.username|default:post.author_name }}</strong></span>
+        <strong>{{ post.author.username|default:post.author_name }}</strong>
         <span class="timestamp">{{ post.created_at|date:"Y-m-d H:i" }}</span>
       </div>
-      <p class="post-content">{{ post.content }}</p>
+      <p>{{ post.content }}</p>
+
+      {% if post.image %}
+        <img src="{{ post.image.url }}" alt="Post image" style="max-width: 400px;">
+      {% endif %}
 
       <div class="post-actions">
         Likes: {{ post.likes }} |
@@ -39,7 +64,8 @@
         {% if user.is_authenticated %}
           <a href="{% url 'like_post' post.id 'like' %}">👍</a>
           <a href="{% url 'like_post' post.id 'dislike' %}">👎</a>
-          {% if user == post.author %}
+          {# Fix ownership check with None-safety and pk comparison #}
+          {% if post.author and user.pk == post.author.pk %}
             | <a href="{% url 'delete_post' post.id %}">🗑️ Delete</a>
           {% endif %}
         {% endif %}
@@ -48,26 +74,34 @@
       <div class="comments">
         <h4>Comments:</h4>
         {% for comment in post.comment_set.all %}
-          <p><strong>{{ comment.user.username }}</strong>: {{ comment.text }}</p>
+          <p><strong>{{ comment.user.username }}</strong>: {{ comment.text }}
+            {% if user.is_authenticated and comment.user and user.pk == comment.user.pk %}
+              <a href="{% url 'delete_comment' comment.id %}">🗑️</a>
+            {% endif %}
+          </p>
+        {% empty %}
+          <p>No comments yet.</p>
         {% endfor %}
+
         {% if user.is_authenticated %}
           <form method="post" action="{% url 'add_comment' post.id %}">
             {% csrf_token %}
-            {{ comment_form.as_p }}
+            <div>
+              {{ comment_form.text.label_tag }}<br>
+              {{ comment_form.text }}
+              {% if comment_form.text.errors %}
+                <div class="error">{{ comment_form.text.errors }}</div>
+              {% endif %}
+            </div>
             <button type="submit" class="btn-small">Add comment</button>
           </form>
         {% endif %}
-        {% if comment.user == user %}
-          <a href="{% url 'delete_comment' comment.id %}">🗑️</a>
-        {% endif %}
       </div>
     </div>
+  {% empty %}
+    <p>No posts yet.</p>
   {% endfor %}
 </div>
-
-{% for post in page_obj %}
-  <!-- existing post rendering -->
-{% endfor %}
 
 <div class="pagination">
   {% if page_obj.has_previous %}
