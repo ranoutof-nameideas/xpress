@@ -86,4 +86,8 @@ def forum(request):
 def library(request): return render(request, 'library.html')
 def draw(request): return render(request, 'draw.html')
 def podcasts(request): return render(request, 'podcasts.html')
+def podcast1(request): return render(request, 'podcast1.m4a')
+def podcast2(request): return render(request, 'podcast2.m4a')
+def podcast3(request): return render(request, 'podcast3.m4a')
+def podcast4(request): return render(request, 'podcast4.m4a')
 def profile(request): return render(request, 'profile.html')

@@ -19,6 +19,10 @@ urlpatterns = [
     path('library/', views.library, name='library'),
     path('draw/', views.draw, name='draw'),
     path('podcasts/', views.podcasts, name='podcasts'),
+    path('podcast1/', views.podcasts, name='podcast1'),
+    path('podcast2/', views.podcasts, name='podcast2'),
+    path('podcast3/', views.podcasts, name='podcast3'),
+    path('podcast4/', views.podcasts, name='podcast4'),
     path('profile/', views.profile)
 ]
 
